@@ -4,7 +4,10 @@ module.exports = function statment(invoice, plays) {
   statementData.performances = invoice.performances;
   return renderPlainText(statementData, plays);
 };
-
+function enrichPerformance(aPerformance) {
+  const result = Object.assign({}, aPerformance);
+  return result;
+}
 function renderPlainText(data, plays) {
   let result = `Statement for ${data.customer}\n`;
   for (let perf of data.performances) {
