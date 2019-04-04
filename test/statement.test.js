@@ -6,12 +6,6 @@ var statement = require("../src/statement.js");
 var plays = require("../src/data/plays.json");
 var invoices = require("../src/data/invoices.json");
 
-const format = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 2
-}).format;
-
 describe("statement()", () => {
   it("Test1", () => {
     const format = new Intl.NumberFormat("eu-US", {
