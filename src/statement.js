@@ -44,11 +44,19 @@ module.exports = function statment(invoice, plays) {
     }
     return result;
   }
+  function totalVolumeCredits(data) {
+    let result = 0;
+    for (let perf of data.performances) {
+      result += perf.volumeCredits;
+    }
+    return result;
+  }
 
   const statementData = {};
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalAmount = totalAmount(statementData);
+  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
 
   return renderPlainText(statementData);
 };
@@ -62,7 +70,7 @@ function renderPlainText(data) {
   }
 
   result += `Amount owed is ${usd(data.totalAmount)}\n`;
-  result += `You earned ${totalVolumeCredits()} credits\n`;
+  result += `You earned ${data.totalVolumeCredits} credits\n`;
   return result;
 
   function usd(aNumber) {
@@ -71,12 +79,5 @@ function renderPlainText(data) {
       currency: "USD",
       minimumFractionDigits: 2
     }).format(aNumber / 100);
-  }
-  function totalVolumeCredits() {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.volumeCredits;
-    }
-    return result;
   }
 }
