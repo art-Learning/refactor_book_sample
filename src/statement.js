@@ -44,13 +44,16 @@ module.exports = function statment(invoice, plays) {
     return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
   }
 
-  const statementData = {};
-  statementData.customer = invoice.customer;
-  statementData.performances = invoice.performances.map(enrichPerformance);
-  statementData.totalAmount = totalAmount(statementData);
-  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
+  function createStatementData(invoice, plays) {
+    const result = {};
+    result.customer = invoice.customer;
+    result.performances = invoice.performances.map(enrichPerformance);
+    result.totalAmount = totalAmount(result);
+    result.totalVolumeCredits = totalVolumeCredits(result);
+    return result;
+  }
 
-  return renderPlainText(statementData);
+  return renderPlainText(createStatementData(invoice, plays));
 };
 
 function renderPlainText(data) {
