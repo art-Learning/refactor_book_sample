@@ -34,10 +34,10 @@ module.exports = function statment(invoice, plays) {
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
 
-  return renderPlainText(statementData, plays);
+  return renderPlainText(statementData);
 };
 
-function renderPlainText(data, plays) {
+function renderPlainText(data) {
   let result = `Statement for ${data.customer}\n`;
   for (let perf of data.performances) {
     result += `  ${perf.play.name}: ${usd(perf.amount)} (${
