@@ -7,7 +7,7 @@ module.exports = function createStatementData(invoice, plays) {
   return result;
 
   function enrichPerformance(aPerformance) {
-    const calculator = new PerformanceCalculator(
+    const calculator = createPerformanceCalculator(
       aPerformance,
       playFor(aPerformance)
     );
@@ -18,6 +18,11 @@ module.exports = function createStatementData(invoice, plays) {
     result.volumeCredits = calculator.volumeCredits;
     return result;
   }
+
+  function createPerformanceCalculator(aPerformance, aPlay) {
+    return new PerformanceCalculator(aPerformance, aPlay);
+  }
+
   function playFor(aPerformance) {
     return plays[aPerformance.playID];
   }
