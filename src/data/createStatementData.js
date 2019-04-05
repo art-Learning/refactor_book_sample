@@ -23,11 +23,8 @@ module.exports = function createStatementData(invoice, plays) {
   }
 
   function volumeCreditsFor(aPerformance) {
-    let result = 0;
-    result += Math.max(aPerformance.audience - 30, 0);
-    if ("comedy" === aPerformance.play.type)
-      result += Math.floor(aPerformance.audience / 5);
-    return result;
+    return new PerformanceCalculator(aPerformance, playFor(aPerformance))
+      .volumeCredits;
   }
   function totalAmount(data) {
     return data.performances.reduce((total, p) => total + p.amount, 0);
@@ -41,6 +38,13 @@ class PerformanceCalculator {
   constructor(aPerformance, play) {
     this.performance = aPerformance;
     this.play = play;
+  }
+  get volumeCredits() {
+    let result = 0;
+    result += Math.max(this.performance.audience - 30, 0);
+    if ("comedy" === this.play.type)
+      result += Math.floor(this.performance.audience / 5);
+    return result;
   }
   get amount() {
     let result = 0;
